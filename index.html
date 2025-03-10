@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultimate App Hub 2025</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* General Styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1a1a1a;
+      color: #fff;
+      transition: background-color 0.5s, color 0.5s;
+    }
+
+    body.light-mode {
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    header {
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      clip-path: circle(20% at 10% 10%);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #ffdd57;
+    }
+
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 24px;
+    }
+
+    .hero {
+      margin-top: 50px;
+    }
+
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 30px;
+      animation: slideIn 1.5s ease-in-out;
+    }
+
+    #search {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 50px;
+      width: 300px;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      outline: none;
+    }
+
+    #search::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* Apps Section */
+    .apps-section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .app-card {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .app-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .app-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .app-card h3 {
+      margin: 15px 0 10px;
+      font-size: 20px;
+    }
+
+    .app-card p {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .app-card .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .app-card .buttons a {
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 14px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      flex: 1;
+    }
+
+    .app-card .buttons a.download {
+      background-color: #2575fc;
+      color: #fff;
+    }
+
+    .app-card .buttons a.telegram {
+      background-color: #0088cc;
+      color: #fff;
+    }
+
+    .app-card .buttons a:hover {
+      transform: scale(1.05);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 500px;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .modal-content h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      font-size: 16px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 20px;
+    }
+
+    .modal-stats {
+      margin-bottom: 20px;
+    }
+
+    .modal-stats p {
+      font-size: 18px;
+      color: #fff;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .modal-buttons a {
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      flex: 1;
+    }
+
+    .modal-buttons a.download {
+      background-color: #2575fc;
+      color: #fff;
+    }
+
+    .modal-buttons a.telegram {
+      background-color: #0088cc;
+      color: #fff;
+    }
+
+    .modal-buttons a:hover {
+      transform: scale(1.05);
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .close:hover {
+      color: #ffdd57;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 36px;
+      }
+
+      .hero p {
+        font-size: 18px;
+      }
+
+      #search {
+        width: 100%;
+      }
+
+      .apps-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Section -->
+  <header>
+    <nav>
+      <div class="logo">AppHub 2025</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#apps">Apps</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="theme-toggle" id="theme-toggle">
+        <span>🌙</span>
+      </div>
+    </nav>
+    <div class="hero">
+      <h1>Welcome to the Future of Apps</h1>
+      <p>Explore 100+ futuristic apps designed for 2025 and beyond.</p>
+      <input type="text" id="search" placeholder="Search apps...">
+    </div>
+  </header>
+
+  <!-- Apps Section -->
+  <section id="apps" class="apps-section">
+    <h2>Our Apps</h2>
+    <div class="apps-grid" id="apps-grid">
+      <!-- Apps will be dynamically added here -->
+    </div>
+  </section>
+
+  <!-- Modal/Popup -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close" id="close-modal">&times;</span>
+      <img id="modal-image" src="" alt="App Image">
+      <h2 id="modal-title"></h2>
+      <p id="modal-description"></p>
+      <div class="modal-stats">
+        <p><strong>Users:</strong> <span id="modal-users"></span></p>
+      </div>
+      <div class="modal-buttons">
+        <a id="modal-download" class="download" target="_blank">Download</a>
+        <a id="modal-telegram" class="telegram" target="_blank">Join Telegram</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer>
+    <p>&copy; 2025 AppHub. All rights reserved.</p>
+  </footer>
+
+  <script>
+    // Apps Data (Replace with your 100 apps)
+    const apps = [
+      {
+        name: "App 1",
+        description: "This is the description for App 1.",
+        image: "https://example.com/images/app1.jpg", // Replace with actual image URL
+        downloadLink: "https://t.me/bestshayri_raj", // Replace with actual download link
+        telegramLink: "https://t.me/yourtelegramchannel1", // Replace with actual Telegram link
+        users: 1500, // Replace with actual user count
+      },
+      {
+        name: "App 2",
+        description: "This is the description for App 2.",
+        image: "https://example.com/images/app2.jpg", // Replace with actual image URL
+        downloadLink: "https://example.com/download-app2", // Replace with actual download link
+        telegramLink: "https://t.me/yourtelegramchannel2", // Replace with actual Telegram link
+        users: 2500, // Replace with actual user count
+      },
+      {
+        name: "App 3",
+        description: "This is the description for App 3.",
+        image: "https://example.com/images/app3.jpg", // Replace with actual image URL
+        downloadLink: "https://t.me/bestshayri_raj", // Replace with actual download link
+        telegramLink: "https://t.me/yourtelegramchannel3", // Replace with actual Telegram link
+        users: 3500, // Replace with actual user count
+      },
+      // Add more apps like this...
+    ];
+
+    // Render Apps
+    const appsGrid = document.getElementById('apps-grid');
+    apps.forEach(app => {
+      const appCard = document.createElement('div');
+      appCard.classList.add('app-card');
+      appCard.innerHTML = `
+        <img src="${app.image}" alt="${app.name}">
+        <h3>${app.name}</h3>
+        <p>${app.description}</p>
+        <div class="buttons">
+          <a href="#" class="download" data-app='${JSON.stringify(app)}'>Download</a>
+          <a href="${app.telegramLink}" class="telegram" target="_blank">Join Telegram</a>
+        </div>
+      `;
+      appsGrid.appendChild(appCard);
+    });
+
+    // Modal Functionality
+    const modal = document.getElementById('modal');
+    const closeModal = document.getElementById('close-modal');
+    const modalImage = document.getElementById('modal-image');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDescription = document.getElementById('modal-description');
+    const modalUsers = document.getElementById('modal-users');
+    const modalDownload = document.getElementById('modal-download');
+    const modalTelegram = document.getElementById('modal-telegram');
+
+    // Open Modal
+    document.querySelectorAll('.download').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        const app = JSON.parse(button.getAttribute('data-app'));
+        modalImage.src = app.image;
+        modalTitle.textContent = app.name;
+        modalDescription.textContent = app.description;
+        modalUsers.textContent = app.users.toLocaleString();
+        modalDownload.href = app.downloadLink;
+        modalTelegram.href = app.telegramLink;
+        modal.style.display = 'flex';
+      });
+    });
+
+    // Close Modal
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    // Close Modal on Outside Click
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    // Search Functionality
+    const searchInput = document.getElementById('search');
+    searchInput.addEventListener('input', (e) => {
+      const searchTerm = e.target.value.toLowerCase();
+      const filteredApps = apps.filter(app => app.name.toLowerCase().includes(searchTerm));
+      appsGrid.innerHTML = '';
+      filteredApps.forEach(app => {
+        const appCard = document.createElement('div');
+        appCard.classList.add('app-card');
+        appCard.innerHTML = `
+          <img src="${app.image}" alt="${app.name}">
+          <h3>${app.name}</h3>
+          <p>${app.description}</p>
+          <div class="buttons">
+            <a href="#" class="download" data-app='${JSON.stringify(app)}'>Download</a>
+            <a href="${app.telegramLink}" class="telegram" target="_blank">Join Telegram</a>
+          </div>
+        `;
+        appsGrid.appendChild(appCard);
+      });
+    });
+
+    // Add event listener to modal download button
+    modalDownload.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.open(modalDownload.href, '_blank');
+    });
+  </script>
+</body>
+  </html>
