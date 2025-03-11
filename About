@@ -1,1 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .form-container h2 {
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+            color: #333;
+        }
+
+        .form-container input,
+        .form-container textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-container input:focus,
+        .form-container textarea:focus {
+            border-color: #6a11cb;
+        }
+
+        .form-container textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .form-container button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+
+        .form-container button:active {
+            transform: scale(0.98);
+        }
+
+        .success-message {
+            margin-top: 1rem;
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .error-message {
+            margin-top: 1rem;
+            color: #dc3545;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Contact Us</h2>
+        <form id="contactForm">
+            <input type="text" id="name" placeholder="Your Name" required>
+            <input type="email" id="email" placeholder="Your Email" required>
+            <textarea id="message" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+        <div id="responseMessage" class="success-message"></div>
+    </div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Telegram Bot API Details
+            const botToken = '7542193416:AAFNq5epd86eENMiUOw6VP7z5uepoR7VChM'; // Apna bot token daalein
+            const chatId = '5789538424'; // Apna chat ID daalein
+
+            // Message format
+            const text = `New Contact Form Submission:\n\nName: ${name}\nEmail: ${email}\nMessage: ${message}`;
+
+            // Send data to Telegram bot
+            fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    chat_id: chatId,
+                    text: text
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('responseMessage').innerText = 'Message sent successfully!';
+                document.getElementById('responseMessage').style.color = '#28a745';
+                document.getElementById('contactForm').reset();
+            })
+            .catch(error => {
+                document.getElementById('responseMessage').innerText = 'Error sending message. Please try again.';
+                document.getElementById('responseMessage').style.color = '#dc3545';
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
