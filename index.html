@@ -108,6 +108,51 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
+    /* Sidebar Styles */
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background: #2c3e50;
+      position: fixed;
+      top: 0;
+      left: -250px;
+      transition: left 0.3s ease;
+      z-index: 1000;
+    }
+
+    .sidebar.open {
+      left: 0;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 20px;
+    }
+
+    .sidebar ul li {
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 18px;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar ul li a:hover {
+      color: #ffdd57;
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1001;
+    }
+
     /* Apps Section */
     .apps-section {
       padding: 60px 20px;
@@ -297,6 +342,21 @@
   </style>
 </head>
 <body>
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://t.me/bestshayri_raj" target="_blank">Telegram</a></li>
+    </ul>
+  </aside>
+
+  <!-- Sidebar Toggle Button -->
+  <div class="sidebar-toggle" id="sidebar-toggle">
+    <span>☰</span>
+  </div>
+
   <!-- Header Section -->
   <header>
     <nav>
@@ -468,6 +528,14 @@
       e.preventDefault();
       window.open(modalDownload.href, '_blank');
     });
+
+    // Sidebar Toggle Functionality
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebar-toggle');
+
+    sidebarToggle.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+    });
   </script>
 </body>
-  </html>
+              </html>
