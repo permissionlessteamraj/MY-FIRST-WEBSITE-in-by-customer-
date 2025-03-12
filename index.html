@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ultimate App Hub 2025</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     /* General Styles */
     body {
@@ -112,12 +112,13 @@
     .sidebar {
       width: 250px;
       height: 100vh;
-      background: #2c3e50;
+      background: linear-gradient(135deg, #2c3e50, #34495e);
       position: fixed;
       top: 0;
       left: -250px;
       transition: left 0.3s ease;
       z-index: 1000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
     }
 
     .sidebar.open {
@@ -138,6 +139,13 @@
       text-decoration: none;
       font-size: 18px;
       transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sidebar ul li a i {
+      font-size: 20px;
     }
 
     .sidebar ul li a:hover {
@@ -151,6 +159,12 @@
       font-size: 24px;
       cursor: pointer;
       z-index: 1001;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+      color: #ffdd57;
     }
 
     /* Apps Section */
@@ -162,16 +176,19 @@
 
     .apps-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
     }
 
     .app-card {
-      background: rgba(255, 255, 255, 0.1);
-      padding: 20px;
-      border-radius: 10px;
-      text-align: center;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+      padding: 15px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .app-card:hover {
@@ -180,30 +197,37 @@
     }
 
     .app-card img {
-      width: 100%;
-      border-radius: 10px;
+      width: 60px; /* Small size */
+      height: 60px; /* Small size */
+      border-radius: 15px;
+      margin-right: 15px;
+      object-fit: cover;
+    }
+
+    .app-content {
+      flex: 1;
     }
 
     .app-card h3 {
-      margin: 15px 0 10px;
-      font-size: 20px;
+      margin: 0 0 5px;
+      font-size: 18px;
     }
 
     .app-card p {
+      margin: 0;
       font-size: 14px;
       color: rgba(255, 255, 255, 0.7);
     }
 
     .app-card .buttons {
       display: flex;
-      justify-content: space-between;
       gap: 10px;
-      margin-top: 15px;
+      margin-top: 10px;
     }
 
     .app-card .buttons a {
       text-decoration: none;
-      padding: 10px 20px;
+      padding: 8px 15px;
       border-radius: 5px;
       font-size: 14px;
       transition: background-color 0.3s ease, transform 0.3s ease;
@@ -211,110 +235,139 @@
     }
 
     .app-card .buttons a.download {
-      background-color: #2575fc;
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .app-card .buttons a.telegram {
-      background-color: #0088cc;
+      background: linear-gradient(135deg, #0088cc, #00aced);
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .app-card .buttons a i {
+      font-size: 16px;
     }
 
     .app-card .buttons a:hover {
       transform: scale(1.05);
     }
 
-    /* Modal */
-    .modal {
+    /* Download Page Styles */
+    .download-page {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.9);
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      animation: fadeIn 0.5s ease-in-out;
     }
 
-    .modal-content {
+    .download-page.open {
+      display: flex;
+    }
+
+    .download-content {
       background: #1a1a1a;
       padding: 20px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
+      border-radius: 15px;
       text-align: center;
-      position: relative;
+      max-width: 500px;
+      width: 90%;
+      animation: slideIn 0.5s ease-in-out;
     }
 
-    .modal-content img {
-      width: 100%;
-      border-radius: 10px;
+    .download-content img {
+      width: 100px; /* Smaller image */
+      height: 100px; /* Smaller image */
+      border-radius: 15px;
       margin-bottom: 20px;
     }
 
-    .modal-content h2 {
+    .download-content h2 {
       font-size: 24px;
       margin-bottom: 10px;
     }
 
-    .modal-content p {
+    .download-content p {
       font-size: 16px;
       color: rgba(255, 255, 255, 0.7);
       margin-bottom: 20px;
     }
 
-    .modal-stats {
-      margin-bottom: 20px;
-    }
-
-    .modal-stats p {
-      font-size: 18px;
-      color: #fff;
-    }
-
-    .modal-buttons {
+    .download-content .buttons {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       gap: 10px;
     }
 
-    .modal-buttons a {
+    .download-content .buttons a {
       text-decoration: none;
       padding: 10px 20px;
       border-radius: 5px;
       font-size: 16px;
       transition: background-color 0.3s ease, transform 0.3s ease;
-      flex: 1;
     }
 
-    .modal-buttons a.download {
-      background-color: #2575fc;
+    .download-content .buttons a.download {
+      background: linear-gradient(135deg, #2575fc, #6a11cb);
       color: #fff;
     }
 
-    .modal-buttons a.telegram {
-      background-color: #0088cc;
+    .download-content .buttons a.close {
+      background: linear-gradient(135deg, #ff4b4b, #ff6b6b);
       color: #fff;
     }
 
-    .modal-buttons a:hover {
+    .download-content .buttons a:hover {
       transform: scale(1.05);
     }
 
-    .close {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      font-size: 30px;
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Footer Section */
+    footer {
+      background: linear-gradient(135deg, #333, #555);
       color: #fff;
-      cursor: pointer;
+      text-align: center;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+
+    footer a {
+      color: #ffdd57;
+      text-decoration: none;
       transition: color 0.3s ease;
     }
 
-    .close:hover {
-      color: #ffdd57;
+    footer a:hover {
+      color: #fff;
     }
 
     /* Responsive Design */
@@ -336,7 +389,7 @@
       }
 
       .apps-grid {
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       }
     }
   </style>
@@ -345,10 +398,10 @@
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <ul>
-      <li><a href="#index.html">Home</a></li>
-      <li><a href="Aboutsection.html">About</a></li>
-      <li><a href="About.html">Contact</a></li>
-      <li><a href="https://t.me/bestshayri_raj" target="_blank">Telegram</a></li>
+      <li><a href="#index.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="Aboutsection.html"><i class="fas fa-info-circle"></i> About</a></li>
+      <li><a href="About.html"><i class="fas fa-envelope"></i> Contact</a></li>
+      <li><a href="https://t.me/bestshayri_raj" target="_blank"><i class="fab fa-telegram"></i> Telegram</a></li>
     </ul>
   </aside>
 
@@ -386,35 +439,27 @@
     </div>
   </section>
 
-  <!-- Modal/Popup -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <span class="close" id="close-modal">&times;</span>
-      <img id="modal-image" src="" alt="App Image">
-      <h2 id="modal-title"></h2>
-      <p id="modal-description"></p>
-      <div class="modal-stats">
-        <p><strong>Users:</strong> <span id="modal-users"></span></p>
-      </div>
-      <div class="modal-buttons">
-        <a id="modal-download" class="download" target="_blank">Download</a>
-        <a id="modal-telegram" class="telegram" target="_blank">Join Telegram</a>
+  <!-- Download Page -->
+  <div class="download-page" id="download-page">
+    <div class="download-content">
+      <img id="download-image" src="" alt="App Image">
+      <h2 id="download-title"></h2>
+      <p id="download-description"></p>
+      <div class="buttons">
+        <a id="download-link" class="download" target="_blank">Download</a>
+        <a class="close" id="close-download">Close</a>
       </div>
     </div>
   </div>
 
   <!-- Footer Section -->
   <footer>
-    <p>&copy; 2025 AppHub. All rights reserved.</br>
-  </br>
-    This website is best and advance app downloading website </br></br>
-  100% SAFE </br></br>
-  100% SECURE </br></br>
-  SECURED BY RAJ KUMAR </br></br>
-  HELP:- permissionlessteam@gmail.com </br></br>
-  telegram channel:- @bestshayri_raj </br></br>
-  make websites contact me </br></br>
-  telegram:- @promotionyoutubr </br></br>
+    <p>&copy; 2025 AppHub. All rights reserved.</p>
+    <p>This website is the best and most advanced app downloading website.</p>
+    <p>100% SAFE | 100% SECURE | SECURED BY RAJ KUMAR</p>
+    <p>HELP: <a href="mailto:permissionlessteam@gmail.com">permissionlessteam@gmail.com</a></p>
+    <p>Telegram Channel: <a href="https://t.me/bestshayri_raj" target="_blank">@bestshayri_raj</a></p>
+    <p>Make websites? Contact me on Telegram: <a href="https://t.me/promotionyoutubr" target="_blank">@promotionyoutubr</a></p>
   </footer>
 
   <script>
@@ -422,272 +467,16 @@
     const apps = [
       {
         name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
+        description: "THIS IS THE BEST GAMING PLATFORM. DOWNLOAD AND EARN 550 REFERRAL BONUS.",
         image: "raj.jpg", // Replace with actual image URL
         downloadLink: "https://www.winzogames.com/", // Replace with actual download link
         telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
         users: 1820, // Replace with actual user count
       },
-      {
-        name: "App 2",
-        description: "This is the description for App 2.",
-        image: "rajpic1.jpg", // Replace with actual image URL
-        downloadLink: ".............", // Replace with actual download link
-        telegramLink: "https://t.me/yourtelegramchannel2", // Replace with actual Telegram link
-        users: 2500, // Replace with actual user count
-      },
-      {
-        name: "App 3",
-        description: "This is the description for App 3.",
-        image: "rajpic2.jpg", // Replace with actual image URL
-        downloadLink: "https://t.me/bestshayri_raj", // Replace with actual download link
-        telegramLink: "https://t.me/yourtelegramchannel3", // Replace with actual Telegram link
-        users: 3500, // Replace with actual user count
-      },
-      {
+   {
         name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic3.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic4.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic5.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic6.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic7.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "ratpic8.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic9.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic10.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic11.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic12.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic13.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic14.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic16.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic17.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic18.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image:"rajpic19.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic20.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic21.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic22.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic23.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic24.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic25.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic26.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic27.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic28.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic29.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic30.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic31.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic32.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic33.jpg", // Replace with actual image URL
-        downloadLink: "https://www.winzogames.com/", // Replace with actual download link
-        telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
-        users: 1820, // Replace with actual user count
-      },
-      {
-        name: "WINZO",
-        description: "THIS IS BEST GAMING PLATFORM DOWNLOADAND EARN 550 REFERRAL BONUS",
-        image: "rajpic34.jpg", // Replace with actual image URL
+        description: "THIS IS THE BEST GAMING PLATFORM. DOWNLOAD AND EARN 550 REFERRAL BONUS.",
+        image: "raj.jpg", // Replace with actual image URL
         downloadLink: "https://www.winzogames.com/", // Replace with actual download link
         telegramLink: "https://t.me/bestshayri_raj", // Replace with actual Telegram link
         users: 1820, // Replace with actual user count
@@ -702,79 +491,40 @@
       appCard.classList.add('app-card');
       appCard.innerHTML = `
         <img src="${app.image}" alt="${app.name}">
-        <h3>${app.name}</h3>
-        <p>${app.description}</p>
-        <div class="buttons">
-          <a href="#" class="download" data-app='${JSON.stringify(app)}'>Download</a>
-          <a href="${app.telegramLink}" class="telegram" target="_blank">Join Telegram</a>
+        <div class="app-content">
+          <h3>${app.name}</h3>
+          <p>${app.description}</p>
+          <div class="buttons">
+            <a href="#" class="download" data-app='${JSON.stringify(app)}'>Download</a>
+            <a href="${app.telegramLink}" class="telegram" target="_blank"><i class="fab fa-telegram"></i> Join Telegram</a>
+          </div>
         </div>
       `;
       appsGrid.appendChild(appCard);
     });
 
-    // Modal Functionality
-    const modal = document.getElementById('modal');
-    const closeModal = document.getElementById('close-modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalUsers = document.getElementById('modal-users');
-    const modalDownload = document.getElementById('modal-download');
-    const modalTelegram = document.getElementById('modal-telegram');
+    // Download Page Functionality
+    const downloadPage = document.getElementById('download-page');
+    const downloadImage = document.getElementById('download-image');
+    const downloadTitle = document.getElementById('download-title');
+    const downloadDescription = document.getElementById('download-description');
+    const downloadLink = document.getElementById('download-link');
+    const closeDownload = document.getElementById('close-download');
 
-    // Open Modal
     document.querySelectorAll('.download').forEach(button => {
       button.addEventListener('click', (e) => {
         e.preventDefault();
         const app = JSON.parse(button.getAttribute('data-app'));
-        modalImage.src = app.image;
-        modalTitle.textContent = app.name;
-        modalDescription.textContent = app.description;
-        modalUsers.textContent = app.users.toLocaleString();
-        modalDownload.href = app.downloadLink;
-        modalTelegram.href = app.telegramLink;
-        modal.style.display = 'flex';
+        downloadImage.src = app.image;
+        downloadTitle.textContent = app.name;
+        downloadDescription.textContent = app.description;
+        downloadLink.href = app.downloadLink;
+        downloadPage.classList.add('open');
       });
     });
 
-    // Close Modal
-    closeModal.addEventListener('click', () => {
-      modal.style.display = 'none';
-    });
-
-    // Close Modal on Outside Click
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Search Functionality
-    const searchInput = document.getElementById('search');
-    searchInput.addEventListener('input', (e) => {
-      const searchTerm = e.target.value.toLowerCase();
-      const filteredApps = apps.filter(app => app.name.toLowerCase().includes(searchTerm));
-      appsGrid.innerHTML = '';
-      filteredApps.forEach(app => {
-        const appCard = document.createElement('div');
-        appCard.classList.add('app-card');
-        appCard.innerHTML = `
-          <img src="${app.image}" alt="${app.name}">
-          <h3>${app.name}</h3>
-          <p>${app.description}</p>
-          <div class="buttons">
-            <a href="#" class="download" data-app='${JSON.stringify(app)}'>Download</a>
-            <a href="${app.telegramLink}" class="telegram" target="_blank">Join Telegram</a>
-          </div>
-        `;
-        appsGrid.appendChild(appCard);
-      });
-    });
-
-    // Add event listener to modal download button
-    modalDownload.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.open(modalDownload.href, '_blank');
+    closeDownload.addEventListener('click', () => {
+      downloadPage.classList.remove('open');
     });
 
     // Sidebar Toggle Functionality
@@ -786,4 +536,4 @@
     });
   </script>
 </body>
-              </html>
+        </html>
